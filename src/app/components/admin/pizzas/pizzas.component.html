@@ -1,0 +1,97 @@
+<div class="container">
+    <h3>Pizzák kezelése</h3>
+
+
+    <button class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#formModal"><i class="bi bi-plus-circle-fill"></i>  Új pizza hozzáadása</button>
+
+    <table class="table table-hover table-stripped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Kép</th>
+                <th>Megnevezés</th>
+                <th>Leírás</th>
+                <th class="text-end">Kalória</th>
+                <th class="text-end">Ár</th>
+                <th class="text-end">Műveletek</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pizza of pizzas; let i = index">
+                <td>{{i+1}}.</td>
+                <td>{{pizza.image}}</td>
+                <td>{{pizza.name}}</td>
+                <td>{{pizza.descrip}}</td>
+                <td class="text-end">{{pizza.calories}} kcal</td>
+                <td class="text-end">{{pizza.price}} {{currency}}</td>
+                <td class="text-end">
+                    <button class="btn btn-warning me-3" data-bs-toggle="modal" data-bs-target="#formModal"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-danger me-3"  data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="bi bi-x-square-fill"></i></button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7">Összesen: <strong>0</strong> rendelés</td>
+            </tr>
+        </tfoot>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+
+  
+  <!-- Form Modal -->
+  <div class="modal fade" id="formModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="formModalLabel">Pizza ~</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Műveletek....
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégsem</button>
+          <button type="button" class="btn btn-success">Megerősítés</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Confirm Modal -->
+  <div class="modal fade" id="confirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Megerősítés</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Biztos vagy te ebbe öcsi?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hupika</button>
+          <button type="button" class="btn btn-danger">Igen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

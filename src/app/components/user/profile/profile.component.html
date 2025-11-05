@@ -1,0 +1,35 @@
+<div class="col-sm-6 offset-sm-3">
+
+    <h3 class="mb-4">Update my profile</h3>
+
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="nameProf" placeholder="name@example.com">
+        <label for="nameProf">Username</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="emailProf" placeholder="name@example.com">
+        <label for="emailProf">Email address</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="phoneProf" placeholder="Password">
+        <label for="phoneProf">Phone</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="adressProf" placeholder="Password">
+        <label for="adressProf">Adress</label>
+    </div>
+    <hr class="mb-3">
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control disabled" id="regDateProf"  placeholder="Password" disabled>
+        <label for="regDateProf">Registration date</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control disabled" id="lastLogProf" placeholder="Password" disabled>
+        <label for="lastLogProf">Last login date</label>
+    </div>
+    
+    <div class="d-flex gap-2">
+        <button class="mb-3 btn btn-success" (click)="profUpdate()">Update <i class="bi bi-arrow-repeat"></i></button>
+        <button class="mb-3 btn btn-secondary" routerLink="/login">Back <i class="bi bi-box-arrow-left"></i></button>
+    </div>
+</div>

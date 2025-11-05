@@ -1,0 +1,27 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
+import { Route, Router } from '@angular/router';
+import { MessageService } from '../../../services/message.service';
+
+@Component({
+  selector: 'app-logout',
+  standalone: true,
+  imports: [],
+  templateUrl: './logout.component.html',
+  styleUrl: './logout.component.scss'
+})
+export class LogoutComponent implements OnInit{
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private message: MessageService
+  ){}
+
+  ngOnInit(): void {
+    this.auth.logout(),
+    this.message.show('success','Ok','Sikeresen kijelentkeztél.')
+    this.router.navigate(["/login"])
+  }
+
+    
+}

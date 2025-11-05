@@ -1,0 +1,7 @@
+<div *ngIf="message" class="alert alert-{{message.severity}} alert-dissmissable fade show" role="alert">
+    <strong class="d-flex gap-2">
+        <i class="{{message.icon}}"></i>
+        <h4 class="alert-heading">{{message.title}}</h4>
+    </strong>
+    {{message.message}}
+</div>

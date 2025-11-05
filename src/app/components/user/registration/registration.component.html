@@ -1,0 +1,41 @@
+<div class="col-sm-6 offset-sm-3">
+
+    <h3 class="mb-4">Registration</h3>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="nameReg" placeholder="name@example.com" name="newUser.name" [(ngModel)]="newUser.name">
+        <label for="nameReg">Username: <em> *</em></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="emailReg" placeholder="name@example.com" name="newUser.email" [(ngModel)]="newUser.email">
+        <label for="emailReg">Email address:  <em>*</em></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="passwordReg" placeholder="Password" name="newUser.password" [(ngModel)]="newUser.password">
+        <label for="passwordReg">Password:  <em>*</em></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="passwordConfReg" placeholder="Password" name="newUser.confirm" [(ngModel)]="newUser.confirm">
+        <label for="passwordConfReg">Confirm password:  <em>*</em></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="phone" class="form-control" id="phoneReg" placeholder="Phone" name="newUser.phone" [(ngModel)]="newUser.phone">
+        <label for="phoneReg">Phone:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="addrReg" placeholder="adress st. 5."  name="newUser.address" [(ngModel)]="newUser.address">
+        <label for="addrReg">Adress:</label>
+    </div>
+    <div class="d-flex gap-2 mb-3 justify-content-between">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="TAS" [(ngModel)]="acceptTerms"> 
+            <label class="form-check-label" for="TAS">
+              I've read and accepted the terms and services <em>*</em>
+            </label>
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="mb-3 btn btn-success" (click)="register()">Register <i class="bi bi-pencil-square"></i></button>
+        <button class="mb-3 btn btn-secondary" routerLink="/login">Login <i class="bi bi-arrow-left-right"></i></button>
+    </div>
+</div>
