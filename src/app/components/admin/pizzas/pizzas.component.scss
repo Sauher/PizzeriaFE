@@ -1,0 +1,16 @@
+.textarea{
+    min-height: 250px;
+}
+
+.thumbnail{
+    width: 200px;
+    padding: 3px;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.thumbnail:hover{
+    scale: 1;
+}

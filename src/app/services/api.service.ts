@@ -44,10 +44,27 @@ export class APIService {
       }
     }
   }
+    // GET ONE record by email from table
+    async SelectEmail(table:string, email:string):Promise<apiRES>{
+      try{
+        const res = await axios.get(`${this.SERVER}/${table}/${email}`)
+      return {
+        status:200,
+        data : res.data
+      }
+      }
+      catch (err : any){
+        return {
+          status:500,
+          message: "Hiba történt az adatok lekéréskor"
+        }
+      }
+    }
+  
 
   async Insert(table: string, data: any){
     try{
-      const res = await axios.post(`${this.SERVER}/${table}` , data,{headers:{'Content-Type':'application.json'}})
+      const res = await axios.post(`${this.SERVER}/${table}`,data)
     return {
       status:200,
       message: "Rekord felvéve",
@@ -140,6 +157,37 @@ export class APIService {
         status:500,
         message: err.response.data.error
         
+      }
+    }
+  }
+  async upload(formData:FormData): Promise<apiRES>{
+    try{
+      const res = await axios.post(`${this.SERVER}/upload`, formData)
+    return {
+      status:200,
+      data : res.data
+    }
+    }
+    catch (err : any){  
+      return {
+        status:500,
+        message: "Hiba történt az adatok lekéréskor"
+      }
+    }
+  }
+
+  async deleteImage(filename: string): Promise<apiRES>{
+    try{
+      const res = await axios.delete(`${this.SERVER}/image/${filename}`)
+    return {
+      status:200,
+      data : res.data
+    }
+    }
+    catch (err : any){  
+      return {
+        status:500,
+        message: "Nem sikerült a fájl törlése"
       }
     }
   }
