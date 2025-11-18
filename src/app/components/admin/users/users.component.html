@@ -15,17 +15,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of pagedUser; let i = index">
+            <tr *ngFor="let user of pagedUser; let i = index" [ngClass]="{'inactive': !user.status}">
                 <td>{{i+1}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
                 <td class="text-end">{{user.phone}}</td>
                 <td class="text-end">{{user.role}}</td>
                 <td class="text-end">{{user.address}}</td>
-                <td class="text-end">{{user.status}}</td>
+                <td class="text-end">{{user.status ? "Aktív" : "Inaktív"}}</td>
                 <td class="text-end">
-                    <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#infoModal" (click)="getUser(user.email)"><i class="bi bi-info-circle-fill"></i></button>
-                    <button class="btn btn-danger me-3"><i class="bi bi-ban-fill"></i></button>
+                    <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#infoModal" (click)="getUser(user.id)"><i class="bi bi-info-circle-fill"></i></button>
+                    <button class="btn btn-danger me-3" *ngIf="user.id != loggedUser.id" (click)="banUser(user.id)"><i class="bi bi-ban-fill"></i></button>
                 </td>
             </tr>
         </tbody>
@@ -52,39 +52,124 @@
 
 
     <!--INFO MODAL-->
-    <div class="modal fade" id="infoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal modal-xl fade" id="infoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">Megerősítés</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <table class="table table-hover table-stripped">
+            <div class="modal-body modalDiv">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Adatok</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Rendelések</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                  <table class="table table-hover table-stripped modalTable">
                     <thead>
                         <th>
                             <tr>Név:</tr>
                             <tr>Email:</tr>
                             <tr>Cím:</tr>
                             <tr>Tel.:</tr>
+                            <tr>Reg:</tr>
                         </th>
                         <th>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control disabled" id="lastLogProf" placeholder="Password" disabled [(ngModel)] = "user.name">
-                                <label for="lastLogProf"></label>
-                            </div>
-                            <tr>mail</tr>
-                            <tr>cim</tr>
-                            <tr>tel</tr>
+                            <tr class="text-end">{{selectedUser?.name}}</tr>
+                            <tr class="text-end">{{user.email}}</tr>
+                            <tr class="text-end">{{user.address}}</tr>
+                            <tr class="text-end">{{user.phone}}</tr>
+                            <tr class="text-end">{{user.reg}}</tr>
                         </th>
                     </thead>
                 </table>
+                </div>
+              </div>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                  <table class="table table-hover table-stripped">
+                    <thead>
+                      <tr>
+                        <td>ID</td>
+                        <td>USER_ID</td>
+                        <td>TOTAL</td>
+                        <td>STATUS</td>
+                        <td>CREATED AT</td>
+                        <td>UPDATED AT</td>
+                        <td>RÉSZLETEK</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let order of orders; let i = index">
+                        <td>{{i+1}}.</td>
+                        <td>{{order.user_id}}</td>
+                        <td>{{order.total}}</td>
+                        <td>{{order.status}}</td>
+                        <td>{{order.created_at}}</td>
+                        <td>{{order.updated_at}}</td>
+                        <td class="text-end">
+                          <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#extraModal" (click)="getPizza(order.user_id)"><i class="bi bi-info-circle-fill"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+
+                
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hupika</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancel()">Hupika</button>
               <button type="button" class="btn btn-danger">Igen</button>
             </div>
           </div>
         </div>
     </div>
+        <!--EXTRA MODAL-->
+        <div class="modal modal-xl fade" id="extraModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="extraModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Megerősítés</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body modalDiv">
+                <table class="table table-hover table-stripped">
+                  <thead>
+                    <tr>
+                      <td>#</td>
+                      <td>Név</td>
+                      <td>Leírás</td>
+                      <td>Kép</td>
+                      <td>Kalória</td>
+                      <td>Ár</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let pf of pizzas; let i = index">
+                      <td>{{i+1}}.</td>
+                      <td>{{pf.name}}</td>
+                      <td>{{pf.descrip}}</td>
+                      <td>{{pf.image}}</td>
+                      <td>{{pf.calories}}</td>
+                      <td>{{pf.price}}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot></tfoot>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancel()">Hupika</button>
+                <button type="button" class="btn btn-danger">Igen</button>
+              </div>
+            </div>
+          </div>
+      </div>
 </div>
+

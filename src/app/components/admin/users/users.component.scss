@@ -1,9 +1,21 @@
-.modal {
+.modal{
     text-align: center;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
 }
 .modal-dialog {
     text-align: left; /* you'll likely want this */
-    max-width: 100%;
-    width: auto !important;
+    max-width: 200%;
+    width: 40%;
+    align-items: center;
+    justify-items: center;
     display: inline-block;
+}
+
+.inactive >td{
+    color:silver;
+    font-style: italic;
+    text-decoration:wavy;
+    background-color: rgb(48, 48, 48);
 }

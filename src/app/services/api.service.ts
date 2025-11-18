@@ -44,6 +44,24 @@ export class APIService {
       }
     }
   }
+
+
+  async getPizzaID(table: string, column:string,id:number){
+    try{
+      
+      const res = await axios.get(`${this.SERVER}/${table}/${column}/${id}`)
+    return {
+      status:200,
+      data : res.data
+    }
+    }
+    catch (err : any){
+      return {
+        status:500,
+        message: "Hiba történt az adatok lekéréskor"
+      }
+    }
+  }
     // GET ONE record by email from table
     async SelectEmail(table:string, email:string):Promise<apiRES>{
       try{
