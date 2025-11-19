@@ -11,6 +11,23 @@ export class APIService {
   SERVER = enviroment.serverUrl
   constructor() { }
 
+
+  async sendMail(data:object):Promise<apiRES>{
+    try{
+      const res = await axios.post(`${this.SERVER}/sendmail`,data)
+    return {
+      status:200,
+      message: res.data.message
+    }
+    }
+    catch (err : any){
+      return {
+        status:500,
+        message: "Hiba történt az adatok lekéréskor"
+      }
+    }
+  }
+
   // Get all records from table
   async SelectAll(table: string): Promise<apiRES>{
     try{

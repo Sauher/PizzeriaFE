@@ -45,6 +45,21 @@ export class RegistrationComponent {
           this.message.show('danger','Hiba',"Hiba van a rendszerben")
           return
         }
+
+        let data =
+        {
+            "template" : "registration",
+            "to" : this.newUser.email,
+            "subject" : "Sikeres regisztráció",
+            "data":{
+                "username":this.newUser.name,
+                "email": this.newUser.email,
+                "password" : this.newUser.password,
+                "url" : "https://localhost:4200",
+                "csapat" : "Pizzapityu"
+        }}
+        this.api.sendMail(data)
+
         this.message.show('success','OK','Woohooo')
         this.router.navigate(['login'])
       } )}
