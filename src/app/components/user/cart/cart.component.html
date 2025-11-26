@@ -1,1 +1,32 @@
-<p>cart works!</p>
+<h3>Rendeléseid</h3>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Pizza neve</th>
+            <th class="text-end">Egységár</th>
+            <th class="text-end">Mennyiség</th>
+            <th class="text-end">Összesen</th>
+            <th class="text-end">Műveletek</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of items; let i=index">
+            <td>{{i+1}}</td>
+            <td>{{item.pizzaName}}</td>
+            <td class="text-end">{{item.pizzaPrice | numberFormat}} {{currency}}</td>
+            <td class="text-end">{{item.amount}} db</td>
+            <td class="text-end">{{item.total | numberFormat}} {{currency}}</td>
+            <td class="text-end">
+                <button class="btn btn-danger btn-sm mr-2">
+                    <i class="bi bi-trash-fill"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">Összesen:<strong class="text-end">{{allTotal | numberFormat}}</strong>{{currency}}</td>
+        </tr>
+    </tfoot>
+</table>

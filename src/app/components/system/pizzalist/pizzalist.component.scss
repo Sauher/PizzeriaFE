@@ -1,0 +1,17 @@
+.thumbnail{
+    width: 120px;
+    height: 90px;
+    padding: 3px;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.thumbnail:hover{
+    scale: 1;
+}
+
+.toCart{
+    width: 19%;
+}

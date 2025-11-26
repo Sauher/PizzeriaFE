@@ -1,1 +1,74 @@
-<p>pizzalist works!</p>
+<h3>Fölhozatal</h3>
+
+<div *ngIf="!isloggedIn">
+    <p>A rendeléshez <a href="/login">jelentkezz be!</a> Vagy <a href="/registration">regisztrálj</a> egy fiókot!</p>
+</div>
+
+<div class="mb-3 w-50 text-end d-flex flex-row">
+    <input type="text" class="form-control w-50" placeholder="Keresés..." [(ngModel)]="searchTerm" (input)="filterPizzas()">
+</div>
+
+<table class="table table-hover table-stiped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Kép</th>
+            <th>Megnevezés</th>
+            <th>Leírás</th>
+            <th class="text-end">Kalória</th>
+            <th class="text-end">Ár</th>
+            <th class="text-end" *ngIf="isloggedIn">Engedj rá!</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let pizza of filteredPizzas; let i = index">
+            <td vAlign="middle">{{i+ 1}}</td>
+            <td>
+                <img *ngIf="pizza.image" src="../../../../assets/{{pizza.image}}" alt="{{pizza.name}}" 
+                class="thumbnail" (click)="openLightBox(pizza.image)">
+                <img *ngIf="!pizza.image" src="../../../../assets/No_Image_Available.jpg" alt="{{pizza.name}}" 
+                class="thumbnail">
+                {{pizza.image}}</td>
+            <td vAlign="middle">{{pizza.name}}</td>
+            <td vAlign="middle">{{pizza.descrip}}</td>
+            <td vAlign="middle" class="text-end">{{pizza.calories | numberFormat}} kcal</td>
+            <td vAlign="middle" class="text-end"><strong>{{pizza.price| numberFormat}}</strong>{{currency}}</td>
+            <td vAlign="middle" class="text-end toCart" *ngIf="isloggedIn">
+                <div class="d-flex flex-row justify-content-end gap-2">
+                    <input type="number" class="form-control w-50 h-50" id="amount" [(ngModel)]="pizza.amount" placeholder="" min="0">
+                    <button class="btn btn-primary btn-sm mb-3" (click)="AddToCart(pizza.id)"><i class="bi bi-fork-knife"></i></button>       
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6" *ngIf="!isloggedIn" class="text-center">
+                Összesen <span>{{pizzas.length}}</span> pizza
+            </td>
+            <td colspan="7" *ngIf="isloggedIn" class="text-center">
+                Összesen <span>{{pizzas.length}}</span> pizza
+            </td>
+        </tr>
+    </tfoot>
+    
+</table>
+<nav aria-label="Page navigation example" *ngIf="totalPages > 1">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link"  aria-label="Previous" (click)="setPage(currentPage-1)" [class.disabled]="currentPage == 1">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+
+        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index">
+          <a class="page-link" (click)="setPage(i + 1)"  [class.active]="currentPage == i + 1">{{i + 1}}</a>
+        </li>
+
+      <li class="page-item">
+        <a class="page-link"  aria-label="Next" (click)="setPage(currentPage+1)" [class.disabled]="currentPage == totalPages">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
