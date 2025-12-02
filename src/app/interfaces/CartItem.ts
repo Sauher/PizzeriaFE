@@ -1,10 +1,10 @@
 export interface CartItem{
-    ID: number,
+    id: number,
     userId: number,
     pizzaId: number,
     userName: string,
     pizzaName: string,
-    pizzaPrice: number,
+    price: number,
     amount: number,
     total: number
 }

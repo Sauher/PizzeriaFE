@@ -3,6 +3,7 @@ import { NavItem } from '../../../interfaces/navitem';
 import { CommonModule, NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,9 +22,10 @@ export class NavbarComponent implements OnInit{
     isLoggedIn = false;
     isAdmin = false;
     loggedUserName = '';
-
+    cartCount = 0
     constructor(
       private auth: AuthService,
+      private cart: CartService
     ){}
 
     navItems:NavItem[] = []
@@ -35,9 +37,19 @@ export class NavbarComponent implements OnInit{
         
         if(this.isLoggedIn){
           this.loggedUserName = this.auth.loggedUser()[0].name;
+          this.cart.refreshcartCount();
+
+          this.cart.cartCount$.subscribe(count =>{
+            this.cartCount = count
+            this.setupMenu(res);
+          })
         }
-        console.log(res)
-        this.setupMenu(res);
+        else{
+          this.loggedUserName = ""
+          this.cartCount = 0
+          this.setupMenu(false)
+        }
+        
       })
     }
 
@@ -53,7 +65,7 @@ export class NavbarComponent implements OnInit{
           name: 'Kosár',
           icon: 'bi-cart',
           url:'cart',
-          badge: 3
+          badge: this.cartCount
         },
         ...(this.isAdmin) ? [
           {

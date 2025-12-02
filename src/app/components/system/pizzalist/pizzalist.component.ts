@@ -8,6 +8,7 @@ import { Pizza } from '../../../interfaces/pizza';
 import { NumberFormatPipe } from '../../../pipes/number-format.pipe';
 import { LightboxComponent } from '../lightbox/lightbox.component';
 import { MessageService } from '../../../services/message.service';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
 
@@ -43,7 +44,8 @@ export class PizzalistComponent implements OnInit{
   constructor(
     private api : APIService,
     private auth: AuthService,
-    private message: MessageService
+    private message: MessageService,
+    private cart : CartService
   ){}
 
 
@@ -122,6 +124,7 @@ export class PizzalistComponent implements OnInit{
         //Nincs még benne ilyen miújság
         this.api.Insert('carts',data).then(res=>{
           this.message.show('success','Ok','A tétel sikeresen hozzáadva a kosárhoz!')
+          this.cart.refreshcartCount()
           return
         })
       }

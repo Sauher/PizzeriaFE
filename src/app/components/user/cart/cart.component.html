@@ -14,19 +14,52 @@
         <tr *ngFor="let item of items; let i=index">
             <td>{{i+1}}</td>
             <td>{{item.pizzaName}}</td>
-            <td class="text-end">{{item.pizzaPrice | numberFormat}} {{currency}}</td>
+            <td class="text-end">{{item.price | numberFormat}} {{currency}}</td>
             <td class="text-end">{{item.amount}} db</td>
             <td class="text-end">{{item.total | numberFormat}} {{currency}}</td>
             <td class="text-end">
-                <button class="btn btn-danger btn-sm mr-2">
+                <button class="btn btn-danger btn-sm mr-2" (click)="remove(item.id)">
                     <i class="bi bi-trash-fill"></i>
                 </button>
             </td>
+            
         </tr>
     </tbody>
     <tfoot>
         <tr>
             <td colspan="4">Összesen:<strong class="text-end">{{allTotal | numberFormat}}</strong>{{currency}}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" (click)="emptycart()">Kosár ürítése</button>
+            </td>
         </tr>
     </tfoot>
+
 </table>
+
+<div class="col-lg-6">
+    <h3>Rendelés leadása</h3>
+    <div class="form-floating mb-3">
+        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" [disabled]="items.length == 0" [(ngModel)]="newOrder.shipping">
+          <option selected>Válasszon...</option>
+          <option value="Házhozszállítás">Házhoz</option>
+          <option value="Értejön">Érte megyek</option>
+
+        </select>
+        <label for="floatingSelect">Szállítás</label>
+      </div>
+      <div class="form-floating mb-3">
+        <select class="form-select" id="floatingSelect" [disabled]="items.length == 0" aria-label="Floating label select example" [(ngModel)]="newOrder.payment">
+          <option selected>Válasszon...</option>
+          <option value="Bankkártya">Bankkártya</option>
+          <option value="Utalás">Utalás</option>
+          <option value="Készpénz">Készpénz (helyszíni fizetés)</option>
+        </select>
+        <label for="floatingSelect">Fizetés</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" [disabled]="items.length == 0" [(ngModel)]="newOrder.comment"></textarea>
+        <label for="floatingTextarea">Megjegyzés</label>
+      </div>
+      <button class="btn btn-primary" (click)="sendOrder()">Rendelés leadása</button>
+</div>
