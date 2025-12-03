@@ -38,6 +38,7 @@ export class CartComponent implements OnInit{
   items: CartItem[] = []
   currency: string = "Ft"
   allTotal = 0
+  orderitems: CartItem[] = []
 
   ngOnInit(): void {
     this.getData()
@@ -112,6 +113,7 @@ export class CartComponent implements OnInit{
           quantity: item.amount,
           price: item.price
         }
+       
         let p = this.api.Insert("order_items",orderItem).then(res=>{
           return this.api.Delete("carts",item.id)
         })
@@ -119,12 +121,32 @@ export class CartComponent implements OnInit{
       })
       Promise.all(promises).then(()=>{
         this.msg.show('success','OK',"Rendelésed sikeresen leadva!")
+        this.sendOrderInfo(this.items, this.newOrder)
         this.getData()
         this.cart.clearCartCount()
       })
 
 
     })
+    }
+    sendOrderInfo(pizzas: CartItem[], orderInfo : order){
+      let data = {
+        to: this.auth.loggedUser()[0].email,
+        subject: "Rendelés visszaigazolás!",
+        template : "orderinfo",
+        data: {
+        pizzas,
+        payment : orderInfo.payment,
+        shipping : orderInfo.shipping,
+        comment : orderInfo.comment,
+        userName: this.auth.loggedUser()[0].username,
+        phone: "423423",
+        address:"Valahol"
+        }
+      }
+      this.api.sendMail(data).then(res=>{
+        console.log(res)
+      })
     }
   }
 
